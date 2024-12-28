@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <chrono> // Untuk pengukuran waktu
+#include <fstream>
+#include <algorithm> // Untuk sort
 
 using namespace std;
 
@@ -20,9 +22,27 @@ int binarySearchIterative(const vector<string>& dataset, const string& target) {
 }
 
 int main() {
-    // Dataset kamus (contoh sederhana)
-    vector<string> dataset = {"apple", "banana", "cherry", "date", "grape", "lemon", "orange", "pear"};
-    string target = "cherry";
+    // Membaca dataset dari file
+    ifstream file("dataJudulBuku.txt");
+    if (!file) {
+        cerr << "Error: Tidak dapat membuka file." << endl;
+        return 1;
+    }
+
+    vector<string> dataset;
+    string kata;
+    while (file >> kata) { // Membaca setiap kata dari file
+        dataset.push_back(kata);
+    }
+    file.close();
+
+    // Pastikan dataset terurut
+    sort(dataset.begin(), dataset.end());
+
+    // Input kata yang ingin dicari
+    cout << "Masukkan kata yang ingin dicari: ";
+    string target;
+    cin >> target;
 
     // Pengukuran waktu
     auto start = chrono::high_resolution_clock::now();
@@ -41,3 +61,4 @@ int main() {
 
     return 0;
 }
+
